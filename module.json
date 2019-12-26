@@ -1,12 +1,11 @@
 {
 	"disableAutoUpdate": false,
-	"name": "whisper-log",
+	"name": "whisper-log-cli",
 	"author": "Xertyn",
-	"description": "Logs your whisper chat in a .txt file.",
+	"description": "CLI Whisper log",
 	"options": {
-		"niceName": "wlog",
-		"guiName": "Whisper Log"
+		"niceName": "cli-log",
+		"guiName": "Whisper Log cli"
 	},
-	"servers": ["https://raw.githubusercontent.com/Xertyn/whisper-log/master/"],
-	"supportUrl": "https://github.com/Xertyn/whisper-log"
+	"servers": ["https://raw.githubusercontent.com/PatrickSantoZZ/whisper-log-CLI/master/"]	
 }
