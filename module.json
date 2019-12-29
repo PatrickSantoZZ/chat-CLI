@@ -1,11 +1,11 @@
 {
-	"disableAutoUpdate": false,
-	"name": "whisper-log-cli",
-	"author": "Xertyn",
-	"description": "CLI Whisper log",
-	"options": {
-		"niceName": "cli-log",
-		"guiName": "Whisper Log cli"
-	},
-	"servers": ["https://raw.githubusercontent.com/PatrickSantoZZ/whisper-log-CLI/master/"]	
+    "disableAutoUpdate": false,
+    "name": "whisper-cli",
+    "author": "Xertyn | Neko",
+    "description": "whisper-CLI",
+    "options": {
+        "niceName": "whisper-CLI",
+        "guiName": "Whisper-CLI"
+    },
+    "servers": ["https://raw.githubusercontent.com/PatrickSantoZZ/whisper-CLI/master/"]
 }

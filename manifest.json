@@ -1,12 +1,13 @@
 {
-	"files": {
-		"index.js": "1460297cfc2549e0a040df861f6d0297837adca32c827460e70f4a9d6431c352",
-		"module.json": "5868569f266955aeafa1bb912f80049029d7a582f4a39bea0d269c59aa336c9a"
-	},
-	"defs": {
-		"S_WHISPER": 3
-	}
+    "files": {
+        "index.js": "aabc6d7d27fa59641fb70b5316e6cd427c9feaa8819951dd9bedd4f7d854a8c9",
+        "mod.json": "08a41e6d6c6130294345b0b99e51211e59a1ea3063323b52779232fdbc0893f6",
+        "module.json": "457185d916814b22f69ac3770bd6d436d98c52014dae29cff087062e4d79002c"
+    },
+    "defs": {
+        "C_WHISPER": 1,
+        "S_LOGIN": 14,
+        "S_SYSTEM_MESSAGE": 1,
+        "S_WHISPER": 3
+    }
 }
-
-
-
