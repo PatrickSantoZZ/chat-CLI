@@ -6,6 +6,7 @@ let uwuname = null;
 module.exports = function WhisperCLI(mod) {
 	const {command} = mod.require
 
+	//message account name (your charactername)
 	mod.hook('S_LOGIN',14, (event) => {
 	uwuname = event.name
 	})
@@ -13,13 +14,20 @@ module.exports = function WhisperCLI(mod) {
 	//message when target is offline
 	mod.hook('S_SYSTEM_MESSAGE',1 , (event) => {
 		if(event.message.includes('@831')) 
-		console.log('Spieler ist nicht online')
+		console.log('Player is not online')
 	  })
 
+
+	//message when target has blocked you
+	mod.hook('S_SYSTEM_MESSAGE',1 , (event) => {
+		if(event.message.includes('@1338')) 
+		console.log('Player has blocked you')
+	  })
+	
 	//whisper incoming
 	mod.hook('S_WHISPER', 3, (event) => {
 		fs.appendFileSync(path.join(__dirname, 'whispers.txt'), `${msgdatetime()} ${event.name} -> ${event.recipient}: ${stripOuterHTML(event.message)}\n`),
-		console.log(('[')+(uwuname)+(']')+('Whisper von')+ " " +('[')+(event.name)+(']')+ " " +('[')+('Nachicht')+(']:')+ " " +stripOuterHTML(event.message))	
+		console.log(('[')+(uwuname)+(']')+('Whisper from')+ " " +('[')+(event.name)+(']')+ " " +('[')+('Message')+(']:')+ " " +stripOuterHTML(event.message))	
 	})
 
 	//whisp command for CLI
