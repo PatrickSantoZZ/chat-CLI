@@ -1,4 +1,4 @@
-# whisper-log
+# chat for CLIentless
 
 early Beta there will be a better "income whisper view" :3
 now with english translation
