@@ -1,11 +1,11 @@
 {
     "disableAutoUpdate": false,
-    "name": "whisper-cli",
-    "author": "Xertyn | Neko",
-    "description": "whisper-CLI",
+    "name": "chat",
+    "author": "Neko",
+    "description": "chat",
     "options": {
-        "niceName": "whisper-CLI",
-        "guiName": "Whisper-CLI"
+        "niceName": "chat",
+        "guiName": "chat"
     },
-    "servers": ["https://raw.githubusercontent.com/PatrickSantoZZ/whisper-CLI/master/"]
+    "servers": ["https://raw.githubusercontent.com/PatrickSantoZZ/chat-CLI/master/"]
 }

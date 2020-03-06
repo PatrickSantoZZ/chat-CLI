@@ -1,11 +1,17 @@
 {
     "files": {
-        "index.js": "1c30ed855d2945dccbfa91ae0e39d9bf8d996814d7555f292c9505001e4f1e33",
-        "mod.json": "08a41e6d6c6130294345b0b99e51211e59a1ea3063323b52779232fdbc0893f6",
-        "module.json": "457185d916814b22f69ac3770bd6d436d98c52014dae29cff087062e4d79002c"
+        "config.json": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "index.js": "d56eadd7bca89a88092bc9d7861c36fa9f4dd493b382e45bb9e460a08b8136d1",
+        "module.json": "1488495f44de060eae9f519a4c0f45d0399c86a905fdc0343297dba29cd32155"
     },
     "defs": {
+        "C_ADD_FRIEND": 1,
+        "C_CHAT": 1,
+        "C_DISMISS_PARTY": 1,
+        "C_LEAVE_PARTY": 1,
+        "C_REQUEST_CONTRACT": 1,
         "C_WHISPER": 1,
+        "S_CHAT": 3,
         "S_LOGIN": 14,
         "S_SYSTEM_MESSAGE": 1,
         "S_WHISPER": 3
