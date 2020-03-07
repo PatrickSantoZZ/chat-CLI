@@ -6,8 +6,19 @@ const path = require('path');
 module.exports = function WhisperCLI(mod) {
 	const {command} = mod.require
 
+	// import config stuff
+	let config = require('./config.json'),
+		enabled = true,
+		whisper = true,
+	 	party = true,
+		guild = true,
+		global = true,
+		trade = true,
+		inv = true,
+		say = true;
+
+
 	//let area 
-	
 	let ownname = null,
 		gameId = null;
 	
@@ -20,7 +31,59 @@ module.exports = function WhisperCLI(mod) {
 		mod.hook('S_SYSTEM_MESSAGE',1 , (event) => {
 			if(mod.parseSystemMessage(event.message).id === 'SMT_GENERAL_NOT_IN_THE_WORLD'){mod.log('Player is offline or wrong name')}	
 			else if(mod.parseSystemMessage(event.message).id === 'SMT_BANLIST_CANT_CONTRACT_YOUR_SMH'){mod.log('Player has blocked you')} })
-	
+			
+			
+			// chat-module stuff config stuff
+			mod.command.add('chat', (arg) => {
+				if (!arg) {
+					enabled = !enabled;
+					mod.log("chat-module " + (Enabled ? "enabled" : "disabled"));
+				} else {
+					switch (arg) {
+						case "whisp":
+							whisper = !whisper;
+							mod.log("chat-module whisper " + (Enabled ? "enabled" : "disabled"));
+							break;
+						case "party":
+							party = !party;
+							mod.log("chat-module party " + (Enabled ? "enabled" : "disabled"));
+							break;
+						case "guild":
+							guild = !guild;
+							mod.log("chat-module guild" + (Enabled ? "enabled" : "disabled"));
+							break;
+							case "global":
+								global = !global;
+								mod.log("chat-module global" + (Enabled ? "enabled" : "disabled"));
+								break;
+							case "trade":
+								trade = !trade;
+								mod.log("chat-module trade" + (Enabled ? "enabled" : "disabled"));
+							break;
+								case "say":
+								say = !say;
+								mod.log("chat-module say" + (Enabled ? "enabled" : "disabled"));
+							break;
+								case "inv":
+								inv = !inv;
+								mod.log("chat-module inv" + (Enabled ? "enabled" : "disabled"));
+							break;
+								case "info":
+									mod.log("chatmod: " + Enabled);
+									mod.log("chatmod-whisp: " + SendToStream);
+									mod.log("chatmod-party: " + whichzone);
+									mod.log("chatmod-guild: " + whichmode);
+									mod.log("chatmod-global: " + whichboss);
+									mod.log("chatmod-trade: "   + boss_GameID);
+									mod.log("chatmod-say: " + partyMembers.length);
+									mod.log("chatmod-inv: " + partyMembers.length);
+								break;
+									default :
+										mod.log("invalid parameter!");
+									break;
+					}
+				}
+			});
 	//whisper incoming
 	mod.hook('S_WHISPER', 3, (event) => {
 		mod.log(('[')+(ownname)+(']')+('Whisper from')+ " " +('[')+(event.name)+(']')+ " " +('[')+('Message')+(']:')+ " " +stripOuterHTML(event.message))	
