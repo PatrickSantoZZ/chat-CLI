@@ -1,0 +1,11 @@
+{
+	"enabled": true,
+	"whisper": true,
+	"party": true,
+	"guild": true,
+	"global": true,
+	"trade": true,
+	"inv": true,
+	"say": true,
+	"multicli": false
+}

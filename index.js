@@ -103,9 +103,18 @@ module.exports = function WhisperCLI(mod) {
 	config.say = true;
 	settingUpdate();
 	}
+	//enable multicli
+	let multicli = false;
+	if (("multicli" in config)) {
+		multicli = config.multicli;
+	}
+	if (!("multicli" in config)) {
+	config.multicli = false;
+	settingUpdate();
+	}
 
 	//let area 
-	let ownname = null,
+	let playername = null,
 		gameId = null;
 
 					
@@ -166,7 +175,15 @@ module.exports = function WhisperCLI(mod) {
 				config.inv = inv
 				settingUpdate()
 				},
-			info() {			
+			multi() {
+					multicli = !multicli
+					mod.log(`chat-module multicli [${multicli ? 'enabled' : 'disabled'}].`)
+					config.multicli = multicli
+					settingUpdate();
+					activatemulticli();
+					},
+			info() {
+				mod.log('---Chat Settings---');			
 				mod.log("chatmod: " + config.enabled);
 				mod.log("chatmod-whisp: " + config.whisper);
 				mod.log("chatmod-party: " + config.party);
@@ -174,27 +191,30 @@ module.exports = function WhisperCLI(mod) {
 				mod.log("chatmod-global: " + config.global);
 				mod.log("chatmod-trade: "   + config.trade);
 				mod.log("chatmod-say: " + config.say);
-				mod.log("chatmod-inv: " + config.inv);	
+				mod.log("chatmod-inv: " + config.inv);
+				mod.log("Multi-CLI: " + config.multicli);	
 			}
 			
 		})
 
 	// chat-modes
 	let dataArray = new Buffer.alloc(1, Number());
-	command.add("c", {
+	command.add("cha", {
 			help() {
 				mod.log('---Chat help---');
-				mod.log('c whisp - for whisper chat');
-				mod.log('c party - for party chat');
-				mod.log('c global - for global chat');
-				mod.log('c trade - for trade chat');
-				mod.log('c say - for say chat');
-				mod.log('c inv - invite member to your party');
-				mod.log('c add - to add a friend to your list');
-				mod.log('c drop - leave your current party');
-				mod.log('c disband - disband your party');
+				mod.log('cha whisp - for whisper chat');
+				mod.log('cha party - for party chat');
+				mod.log('cha global - for global chat');
+				mod.log('cha trade - for trade chat');
+				mod.log('cha say - for say chat');
+				mod.log('cha inv - invite member to your party');
+				mod.log('cha add - to add a friend to your list');
+				mod.log('cha drop - leave your current party');
+				mod.log('cha disband - disband your party');
+				mod.log('cha multicli - activate multi cli mode');
 				},
 			whisp(target, ...message) {
+				whisptarget = target;
 				mod.send('C_WHISPER', 1, {target: target,message: message.join(' ')})
 				},
 			guild(...message) {
@@ -240,22 +260,28 @@ module.exports = function WhisperCLI(mod) {
 
 	})
 //=====================Hooks==========================	
-
+	let whisptarget;
+	let clientnum;
+	
 	//whisper incoming better overview soon tm 
 	mod.hook('S_WHISPER', 3, (event) => {
-		mod.log(('[')+(ownname)+(']')+('Whisper from')+ " " +('[')+(event.name)+(']')+ " " +('[')+('Message')+(']:')+ " " +stripOuterHTML(event.message))	
+		if( config.enabled && config.whisper && event.name == playername){ mod.log((playername+' -> '+whisptarget+': '+removeShit(event.message)))}
+			else if (config.enabled && config.whisper){ mod.log(event.name+' -> '+playername+': '+removeShit(event.message))}
+				//else if ( config.enabled && config.whisper && config.multicli && event.name == playername){ mod.log(('['+clientnum+']'+playername+' -> '+whisptarget+': '+removeShit(event.message)))}
+				//	else if (config.enabled && config.whisper && config.multicli){ mod.log(('['+clientnum+']'+event.name+' -> '+playername+': '+removeShit(event.message)))}	
+				// unused shit i fix this soonTM
 	})
 
 	mod.hook('S_CHAT',3 , (event) => {
-		if((event.channel) === 2){mod.log('[Guild] '+event.name+ " "+ stripOuterHTML(event.message) )}	
-		else if ((event.channel) === 1){mod.log('[Party] '+event.name+ " "+ stripOuterHTML(event.message)) }
-		else if ((event.channel) === 213){mod.log('[Megaphone] '+event.name+ " "+ stripOuterHTML(event.message)) }
-		else if ((event.channel) === 0){mod.log('[Say] '+event.name+ " "+ stripOuterHTML(event.message)) }
-		else if ((event.channel) === 4){mod.log('[Trade] '+event.name+ " "+ stripOuterHTML(event.message)) }
-		else if ((event.channel) === 27){mod.log('[Global] '+event.name+ " "+ stripOuterHTML(event.message)) }
+		if( config.enabled && config.guild && (event.channel) === 2){mod.log('[Guild] '+'<'+event.name+'>'+" "+removeShit(event.message) )}	
+		else if (config.enabled && config.party && (event.channel) === 1){mod.log('[Party] '+'<'+event.name+'>'+" "+removeShit(event.message)) }
+		else if (config.enabled && (event.channel) === 213){mod.log('[Megaphone] '+'<'+event.name+'>'+" "+removeShit(event.message)) }
+		else if (config.enabled && config.say &&(event.channel) === 0){mod.log('[Say] '+'<'+event.name+'>'+" "+removeShit(event.message)) }
+		else if (config.enabled && config.trade && (event.channel) === 4){mod.log('[Trade] '+'<'+event.name+'>'+" "+removeShit(event.message)) }
+		else if (config.enabled && config.global && (event.channel) === 27){mod.log('[Global] '+'<'+event.name+'>'+" "+removeShit(event.message)) }
 	})
 	//get char name
-	mod.hook('S_LOGIN',14, (event) => { ownname = event.name, gameId = event.gameId;})
+	mod.hook('S_LOGIN',14, (event) => { playername = event.name, gameId = event.gameId; })
 			
 	//message stuff from SYSTEM Message SMT_GENERAL_NOT_IN_THE_WORLD = offline or wrong name / SMT_BANLIST_CANT_CONTRACT_YOUR_SMH = blocked by this person 
 	mod.hook('S_SYSTEM_MESSAGE',1 , (event) => {
@@ -263,9 +289,20 @@ module.exports = function WhisperCLI(mod) {
 		else if(mod.parseSystemMessage(event.message).id === 'SMT_BANLIST_CANT_CONTRACT_YOUR_SMH'){mod.log('Player has blocked you')} 
 	})
 //=====================Functions==========================
-	
-function stripOuterHTML(str) {
-		return str.replace(/^<[^>]+>|<\/[^>]+><[^\/][^>]*>|<\/[^>]+>$/g, '')
-}
-
+	//currently unused cuz removeShit() works better
+	function stripOuterHTML(str) {
+			return str.replace(/^<[^>]+>|<\/[^>]+><[^\/][^>]*>|<\/[^>]+>$/g, '')
+	}
+		function removeShit(str) {
+			return str.replace(/<[^>]*>/g, "").replace(/&.{3}/g, "")
+		}
+			//currently unused cuz idk xD fucked something up with the multi cli stuff
+		/*	function activatemulticli() {
+				if (config.enabled && config.whisper && config.multicli) {
+					const {client} = mod.require;
+					const clientnum = client.getIndex()+1;
+					clientnum = clientnum;
+				}
+			}
+		*/
 }
