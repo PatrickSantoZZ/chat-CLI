@@ -8,6 +8,7 @@
 # Commands
 
 for config stuff
+
 /8 command | description
 --- | ---
 chat on/off        |  enabled/disable Mod
@@ -24,6 +25,7 @@ chat info  | shows your current config file
 ------
 
 for chatting
+
 /8 command | description
 --- | ---
 cha help        |  overview over all commands
