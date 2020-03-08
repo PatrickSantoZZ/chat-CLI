@@ -3,6 +3,7 @@
 * completly rewritten Mod now.
 * new whisper overview added :3
 * now with english translation
+* added disallow usage of commands when the mode is disabled :3 
 
 
 # Commands
@@ -46,4 +47,4 @@ cha multi | currently not working
  
  # To-Do
 * nothing currently
-* disallow usage of commands when the mode is disabled :3 soonTM
+
