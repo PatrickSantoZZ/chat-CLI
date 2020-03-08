@@ -215,24 +215,49 @@ module.exports = function WhisperCLI(mod) {
 				},
 			whisp(target, ...message) {
 				whisptarget = target;
-				mod.send('C_WHISPER', 1, {target: target,message: message.join(' ')})
+				if (config.whisper) {
+				mod.send('C_WHISPER', 1, {target: target,message: message.join(' ')})  
+				} else {
+					mod.log('please enabled Whisperchat first');
+				}
 				},
 			guild(...message) {
+				if (config.guild) {
 				mod.send('C_CHAT', 1, {channel: 2,message: message.join(' ')})
+				} else {
+					mod.log('please enabled Guildchat first');
+				}	
 				},
 			party(...message) {
+				if (config.party) {
 				mod.send('C_CHAT', 1, {channel: 1,message: message.join(' ')})
+				} else {
+					mod.log('please enabled Partychat first');
+				}
 				},
 			trade(...message) {
+				if (config.trade) {
 				mod.send('C_CHAT', 1, {channel: 4,message: message.join(' ')})
+				} else {
+					mod.log('please enabled Tradechat first');
+				}
 				},							
 			global(...message) {
+				if (config.global) {
 				mod.send('C_CHAT', 1, {channel: 27,message: message.join(' ')})
+				}else{
+					mod.log('please enabled Globalchat first');
+				}
 				},	
-			say(...message) {						
+			say(...message) {
+				if (config.say) {					
 				mod.send('C_CHAT', 1, {channel: 0,message: message.join(' ')})
+				}else{
+					mod.log('please enabled Saychat first');
+				}
 				},
 			inv(target) {
+				if (config.inv) {
 				mod.send('C_REQUEST_CONTRACT', 1, { 
 					target: target,
 					type: 4,
@@ -240,21 +265,35 @@ module.exports = function WhisperCLI(mod) {
 					data: dataArray
 				})
 					mod.log(target+" "+'invited');
+				}else{
+					mod.log('please enabled inv first');
+				}
 				},
 			drop() {
+				if (config.inv) {
 				mod.send('C_LEAVE_PARTY', 1, {})
 				mod.log('Left Group');
+				}else{
+					mod.log('please enabled inv first');
+				}
 				},
 			disband() {
+				if (config.inv) {
 				mod.send('C_DISMISS_PARTY', 1, {});
 				mod.log('Group disbanded')
+			}else{
+				mod.log('please enabled inv first');}
 				},
 			add(target, ...message) {
+				if (config.inv) {
 				mod.send('C_ADD_FRIEND', 1, {
 					name: target,
 					message: message.join(' ')
 				})
-					mod.log(target+" "+'added');	
+					mod.log(target+" "+'added');
+				}else{
+					mod.log('please enabled inv first');
+				}	
 				}
 				
 
